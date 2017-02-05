@@ -3,6 +3,7 @@ $(function () {
     $('#ok').hide();
     $('#redo').hide();
     $('#redoredo').hide();
+    $('h1').css('color','#000000')
 
 
     Webcam.set({
