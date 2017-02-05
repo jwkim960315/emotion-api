@@ -3,11 +3,7 @@ $(function () {
     $('#ok').hide();
     $('#redo').hide();
     $('#redoredo').hide();
-<<<<<<< HEAD
     $('h1').css('color','#000000')
-=======
-    $('#rectangle').hide();
->>>>>>> dtran26/master
 
 
     Webcam.set({
@@ -16,6 +12,8 @@ $(function () {
 
     Webcam.attach( '#my_camera' );
     // $('#cameraButton').glow('#ffffff');
+
+    
 
     function take_snapshot() {
         Webcam.snap( function(data_uri) {
@@ -45,7 +43,6 @@ $(function () {
         $('#redoredo').text('Re-take')
         $('#redoredo').show();
         $('.result_div').show();
-        $("#rectangle").css("display", "inline");
 
     });
 
@@ -103,9 +100,6 @@ $(function () {
         var resultDiv = $(".result_div");
 
 
-        var articleDiv = $(".article");
-
-
         resultDiv.text("Analyzing...");
         
     
@@ -121,11 +115,11 @@ $(function () {
 
             if (data.length > 0) {
 
-                // var faceRectange = data[0].faceRectangle;
-                // var faceWidth = faceRectange.width;
-                // var faceHeight = faceRectange.height;
-                // var faceLeft = faceRectange.left;
-                // var faceTop = faceRectange.top;
+                var faceRectange = data[0].faceRectangle;
+                var faceWidth = faceRectange.width;
+                var faceHeight = faceRectange.height;
+                var faceLeft = faceRectange.left;
+                var faceTop = faceRectange.top;
 
 
                 function floatFormat( number ) {
@@ -143,10 +137,10 @@ $(function () {
                 var faceSurprise = floatFormat(faceScore.surprise);                
 
 
-                var outputs = {"anger":faceAnger,"contempt":faceContempt,
-                               "disgust":faceDisgust,"fear":faceFear,
-                               "happiness":faceHappiness,"neutral":faceNeutral,
-                               "sadness":faceSadness,"surprise":faceSurprise}
+                var outputs = {"Anger":faceAnger,"Contempt":faceContempt,
+                               "Disgust":faceDisgust,"Fear":faceFear,
+                               "Happiness":faceHappiness,"Neutral":faceNeutral,
+                               "Sadness":faceSadness,"Surprise":faceSurprise}
                 console.log(outputs)
                 var newOutputs = []
                 for(var prop in outputs) {
@@ -160,38 +154,11 @@ $(function () {
 
                 var outputText = "";
 
-                // for (var prop in outputs) {
-                //     if (outputs[prop] == maxOutput) {
-                //         if maxOutput > 0.6{
-                //         outputText = "<h3>" + "We've detected " + "<i>" + prop + "</i>" + "</h3>"
-                //         }
-                //     }
-                // }
-
-                if (maxOutput == faceNeutral){
-                    if(faceNeutral > 0.85 && faceHappiness < 0.25){
-                        outputText = "<h3>" + "We've detected " + "<i>" + "a resting bitch face" + "</i>" + "</h3><h4><i>(hint: smile)</i></h4>"
-                        $("article").css("display", "block");
-                    }
-                    else if(faceNeutral > 0.6 && faceSadness > 0.15){
-                        outputText = "<h3>" + "We've detected " + "<i>" + "a resting bitch face" + "</i>" + "</h3><h4><i>(hint: smile)</i></h4>"
-                        $("article").css("display", "block");
-                    }
-                    else{
-                        outputText = "<h3>" + "We couldn't detect " + "<i>" + "a resting bitch face" + "</i>" + "</h3>"
+                for (var prop in outputs) {
+                    if (outputs[prop] == maxOutput) {
+                        outputText = "<h3>" + prop + "</h3>"
                     }
                 }
-
-                else{
-
-                    for (var prop in outputs) {
-                       if (outputs[prop] == maxOutput) {
-                            outputText = "<h3>" + "We've detected " + "<i>" + prop + "</i>" + "</h3>"
-                         }
-                     }
-                 }
-                
-
                 console.log(outputText)
 
                 
@@ -207,14 +174,13 @@ $(function () {
                 // outputText += "sadness: " + faceSadness + "<br>";
                 // outputText += "surprise: " + faceSurprise + "<br>";
 
-
                 // console.log(outputText)
 
                 resultDiv.html(outputText);
                 // resultDiv.css("position","relative");
-                // outputDiv.html(outputText);
 
             }
+
             else {
                 resultDiv.text("Detection Failed");
             }
@@ -227,5 +193,17 @@ $(function () {
         });
 
     };
+
+    var hideMarkers = function () {
+        $("#Rectangle").css("display", "none");
+    };
+
+    $("#imageUrlTextbox").change(function () {
+        hideMarkers();
+        // showImage();
+        getFaceInfo();
+    });
+
+
 
 });
